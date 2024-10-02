@@ -134,6 +134,32 @@ Color piece::get_color() const
     return light_blue;
 }
 
+bool piece::can_move_down(const playfield& field)
+{
+    for (int y = height - 1; y >= 0; --y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            if (!get_block(x, y))
+            {
+                continue;
+            }
+
+            if (this->y + y + 1 >= field.get_height())
+            {
+                return false;
+            }
+
+            if (field.get_tile(this->x + x, this->y + y + 1).has_shape)
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 void piece::move_down()
 {
     y += 1;

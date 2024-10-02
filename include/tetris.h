@@ -35,5 +35,4 @@ class tetris
         int level = 1;
 
         bool should_move_piece_down();
-        bool piece_can_move_down();
 };

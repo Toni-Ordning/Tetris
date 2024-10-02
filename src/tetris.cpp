@@ -29,7 +29,7 @@ void tetris::tick()
         random_pieces.pop_front();
     }
 
-    if (!piece_can_move_down())
+    if (!active_piece->can_move_down(field))
     {
         for (int y = active_piece->get_height() - 1; y >= 0; --y)
         {
@@ -86,32 +86,6 @@ bool tetris::should_move_piece_down()
     return false;
 }
 
-bool tetris::piece_can_move_down()
-{
-    for (int y = active_piece->get_height() - 1; y >= 0; --y)
-    {
-        for (int x = 0; x < active_piece->get_width(); ++x)
-        {
-            if (!active_piece->get_block(x, y))
-            {
-                continue;
-            }
-
-            if (active_piece->get_y() + y + 1 >= field.get_height())
-            {
-                return false;
-            }
-
-            if (field.get_tile(active_piece->get_x() + x, active_piece->get_y() + y + 1).has_shape)
-            {
-                return false;
-            }
-        }
-    }
-    
-    return true;
-}
-
 void tetris::process_events(std::deque<input_event>& events)
 {
     for (input_event event : events)
@@ -134,7 +108,15 @@ void tetris::process_events(std::deque<input_event>& events)
                 }
                 break;
             case input_event::soft_drop:
+                if (!active_piece)
+                {
+                    continue;
+                }
 
+                if (active_piece->can_move_down(field))
+                {
+                    active_piece->move_down();
+                }
                 break;
             case input_event::rotate_clockwise:
 
