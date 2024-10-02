@@ -1,6 +1,7 @@
 #include "raylib.h"
 
 #include "constants.h"
+#include "input.h"
 #include "renderer.h"
 #include "tetris.h"
 
@@ -15,6 +16,9 @@ int main()
     while (!WindowShouldClose())
     {
         tetris.tick();
+
+        std::deque<input_event> input_events = get_input_events();
+        tetris.process_events(input_events);
 
         BeginDrawing();
 

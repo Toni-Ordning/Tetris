@@ -8,6 +8,7 @@ set(CXX_FLAGS "${CXX_FLAGS} -Wall -Wextra -Wpedantic -Werror")
 add_subdirectory(raylib)
 
 add_executable(main
+    src/input.cpp
     src/main.cpp
     src/piece.cpp
     src/piece_generator.cpp

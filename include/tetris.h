@@ -1,5 +1,6 @@
 #pragma once
 
+#include "input.h"
 #include "piece.h"
 #include "piece_generator.h"
 #include "playfield.h"
@@ -15,6 +16,7 @@ class tetris
         tetris(int width, int height);
 
         void tick();
+        void process_events(std::deque<input_event>& events);
 
         int get_width() const noexcept;
         int get_height() const noexcept;

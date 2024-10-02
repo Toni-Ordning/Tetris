@@ -111,3 +111,37 @@ bool tetris::piece_can_move_down()
     
     return true;
 }
+
+void tetris::process_events(std::deque<input_event>& events)
+{
+    for (input_event event : events)
+    {
+        switch (event)
+        {
+            case input_event::hard_drop:
+
+                break;
+            case input_event::move_piece_left:
+                if (active_piece)
+                {
+                    active_piece->move_left(field);
+                }
+                break;
+            case input_event::move_piece_right:
+                if (active_piece)
+                {
+                    active_piece->move_right(field);
+                }
+                break;
+            case input_event::soft_drop:
+
+                break;
+            case input_event::rotate_clockwise:
+
+                break;
+            case input_event::rotate_counterclockwise:
+
+                break;
+        }
+    }
+}

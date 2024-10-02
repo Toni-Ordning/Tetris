@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include "playfield.h"
+
 class piece
 {
     public:
@@ -25,10 +27,13 @@ class piece
         int get_width() const noexcept;
         int get_height() const noexcept;
 
+        void move_down();
+        void move_left(const playfield& field);
+        void move_right(const playfield& field);
+
         bool get_block(int x, int y) const;
         Color get_color() const;
 
-        void move_down();
         void draw(int field_position, int tile_size, const Color& tile_color, const Color& background);
 
     private:

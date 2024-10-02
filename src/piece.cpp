@@ -139,6 +139,42 @@ void piece::move_down()
     y += 1;
 }
 
+void piece::move_left(const playfield& field)
+{
+    if (x == 0)
+    {
+        return;
+    }
+
+    for (int y = 0; y < height; ++y)
+    {
+        if (field.get_tile(x-1, y).has_shape)
+        {
+            return;
+        }
+    }
+
+    --x;
+}
+
+void piece::move_right(const playfield& field)
+{
+    if (x + width >= field.get_width())
+    {
+        return;
+    }
+
+    for (int y = 0; y < height; ++y)
+    {
+        if (field.get_tile(x + width - 1, y).has_shape)
+        {
+            return;
+        }
+    }
+
+    ++x;
+}
+
 void piece::draw(int field_position, int tile_size, const Color& tile_color, const Color& background)
 {
     for (int y = 0; y < height; ++y)
