@@ -2,98 +2,33 @@
 
 #include "constants.h"
 
-#include <cassert>
-
 piece::piece(piece_type type)
-{
-    build_piece(type);
-
-    assert(width != 0);
-    assert(height != 0);
-    assert(!blocks.empty());
-}
-
-void piece::build_piece(piece_type type)
 {
     switch (type)
     {
         case piece_type::i:
-            width = 4;
-            height = 1;
-            blocks = std::vector<bool>(width * height, false);
-            x = 3;
-            y = 0;
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(3, 0);
+            i_piece();
             break;
         case piece_type::j:
-            width = 3;
-            height = 2;
-            blocks = std::vector<bool>(width * height, false);
-            x = 3;
-            y = 0;
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(2, 1);
+            j_piece();
             break;
         case piece_type::l:
-            width = 3;
-            height = 2;
-            blocks = std::vector<bool>(width * height, false);
-            x = 3;
-            y = 0;
-            set_block(2, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(2, 1);
+            l_piece();
             break;
         case piece_type::o:
-            width = 2;
-            height = 2;
-            blocks = std::vector<bool>(width * height, false);
-            x = 4;
-            y = 0;
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(1, 0);
-            set_block(1, 1);
+            o_piece();
             break;
         case piece_type::s:
-            width = 3;
-            height = 2;
-            blocks = std::vector<bool>(width * height, false);
-            x = 3;
-            y = 0;
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(0, 1);
-            set_block(1, 1);
+            s_piece();
             break;
         case piece_type::z:
-            width = 3;
-            height = 2;
-            blocks = std::vector<bool>(width * height, false);
-            x = 3;
-            y = 0;
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(1, 1);
-            set_block(2, 1);
+            z_piece();
             break;
         case piece_type::t:
-            width = 3;
-            height = 2;
-            blocks = std::vector<bool>(width * height, false);
-            x = 3;
-            y = 0;
-            set_block(1, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(2, 1);
+            t_piece();
             break;
+        default:
+            throw "Constructing unknown piece type!";
     }
 }
 
@@ -131,7 +66,7 @@ bool piece::get_block(int x, int y) const
 
 Color piece::get_color() const
 {
-    return light_blue;
+    return color;
 }
 
 bool piece::can_move_down(const playfield& field)
@@ -217,4 +152,102 @@ void piece::draw(int field_position, int tile_size, const Color& tile_color, con
             DrawRectangleLines(this->x*tile_size + field_position + x * tile_size, this->y*tile_size + y * tile_size, tile_size, tile_size, background);
         }
     }
+}
+
+void piece::i_piece()
+{
+    width = 4;
+    height = 1;
+    blocks = std::vector<bool>(width * height, false);
+    x = 3;
+    y = 0;
+    set_block(0, 0);
+    set_block(1, 0);
+    set_block(2, 0);
+    set_block(3, 0);
+    color = light_blue;
+}
+
+void piece::j_piece()
+{
+    width = 3;
+    height = 2;
+    blocks = std::vector<bool>(width * height, false);
+    x = 3;
+    y = 0;
+    set_block(0, 0);
+    set_block(0, 1);
+    set_block(1, 1);
+    set_block(2, 1);
+    color = dark_blue;
+}
+
+void piece::l_piece()
+{
+    width = 3;
+    height = 2;
+    blocks = std::vector<bool>(width * height, false);
+    x = 3;
+    y = 0;
+    set_block(2, 0);
+    set_block(0, 1);
+    set_block(1, 1);
+    set_block(2, 1);
+    color = orange;
+}
+
+void piece::o_piece()
+{
+    width = 2;
+    height = 2;
+    blocks = std::vector<bool>(width * height, false);
+    x = 4;
+    y = 0;
+    set_block(0, 0);
+    set_block(0, 1);
+    set_block(1, 0);
+    set_block(1, 1);
+    color = yellow;
+}
+
+void piece::s_piece()
+{
+    width = 3;
+    height = 2;
+    blocks = std::vector<bool>(width * height, false);
+    x = 3;
+    y = 0;
+    set_block(1, 0);
+    set_block(2, 0);
+    set_block(0, 1);
+    set_block(1, 1);
+    color = green;
+}
+
+void piece::z_piece()
+{
+    width = 3;
+    height = 2;
+    blocks = std::vector<bool>(width * height, false);
+    x = 3;
+    y = 0;
+    set_block(0, 0);
+    set_block(1, 0);
+    set_block(1, 1);
+    set_block(2, 1);
+    color = red;
+}
+
+void piece::t_piece()
+{
+    width = 3;
+    height = 2;
+    blocks = std::vector<bool>(width * height, false);
+    x = 3;
+    y = 0;
+    set_block(1, 0);
+    set_block(0, 1);
+    set_block(1, 1);
+    set_block(2, 1);
+    color = magenta;
 }
