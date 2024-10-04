@@ -88,31 +88,28 @@ bool tetris::should_move_piece_down()
 
 void tetris::process_events(std::deque<input_event>& events)
 {
+    if (!active_piece)
+    {
+        return;
+    }
+
     for (input_event event : events)
     {
         switch (event)
         {
             case input_event::hard_drop:
-
+                while (active_piece->can_move_down(field))
+                {
+                    active_piece->move_down();
+                }
                 break;
             case input_event::move_piece_left:
-                if (active_piece)
-                {
-                    active_piece->move_left(field);
-                }
+                active_piece->move_left(field);
                 break;
             case input_event::move_piece_right:
-                if (active_piece)
-                {
-                    active_piece->move_right(field);
-                }
+                active_piece->move_right(field);
                 break;
             case input_event::soft_drop:
-                if (!active_piece)
-                {
-                    continue;
-                }
-
                 if (active_piece->can_move_down(field))
                 {
                     active_piece->move_down();
