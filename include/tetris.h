@@ -4,6 +4,7 @@
 #include "piece.h"
 #include "piece_generator.h"
 #include "playfield.h"
+#include "tetris_clock.h"
 
 #include <chrono>
 #include <deque>
@@ -30,8 +31,7 @@ class tetris
         piece_generator generator;
         std::deque<piece> random_pieces;
 
-        using tetris_clock = std::chrono::steady_clock;
-        std::chrono::time_point<tetris_clock> last_falldown_time = tetris_clock::now();
+        tetris_time_point last_falldown_time = tetris_clock::now();
         int level = 1;
 
         bool should_move_piece_down();

@@ -1,7 +1,9 @@
 #include "tetris.h"
 
+#include "autorepeat.h"
 #include "tetris_internal.h"
 
+#include <algorithm>
 #include <iostream>
 #include <stdexcept>
 
@@ -93,24 +95,41 @@ void tetris::process_events(std::deque<input_event>& events)
         return;
     }
 
+    // Reset autorepeat if no input event was generated
+    if (events.empty())
+    {
+        reset_autorepeat();
+    }
+
     for (input_event event : events)
     {
         switch (event)
         {
             case input_event::hard_drop:
+                if (!should_autorepeat(event))
+                {
+                    continue;
+                }
+
                 while (active_piece->can_move_down(field))
                 {
                     active_piece->move_down();
                 }
                 break;
             case input_event::move_piece_left:
-                active_piece->move_left(field);
+                if (should_autorepeat(event))
+                {
+                    active_piece->move_left(field);
+                }
                 break;
             case input_event::move_piece_right:
-                active_piece->move_right(field);
+                if (should_autorepeat(event))
+                {
+                    active_piece->move_right(field);
+                }
                 break;
             case input_event::soft_drop:
-                if (active_piece->can_move_down(field))
+                if (should_autorepeat(event) && active_piece->can_move_down(field))
                 {
                     active_piece->move_down();
                 }
