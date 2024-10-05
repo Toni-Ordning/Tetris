@@ -31,7 +31,7 @@ void renderer::draw()
         }
     }
 
-    if (std::optional<piece> piece = game.get_piece())
+    if (piece* piece = game.get_piece())
     {
         piece->draw(draw_position, tile_size, piece->get_color(), game_background);
     }

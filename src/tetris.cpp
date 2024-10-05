@@ -27,7 +27,7 @@ void tetris::tick()
             random_pieces = generator.generate_pieces();
         }
 
-        active_piece = random_pieces.front();
+        active_piece = std::move(random_pieces.front());
         random_pieces.pop_front();
     }
 
@@ -67,9 +67,9 @@ const tile& tetris::get_tile(int x, int y) const
     return field.get_tile(x, y);
 }
 
-const std::optional<piece> tetris::get_piece() const
+piece* tetris::get_piece() const
 {
-    return active_piece;
+    return active_piece.get();
 }
 
 bool tetris::should_move_piece_down()
@@ -135,10 +135,16 @@ void tetris::process_events(std::deque<input_event>& events)
                 }
                 break;
             case input_event::rotate_clockwise:
-
+                if (should_autorepeat(event))
+                {
+                    active_piece->rotate(piece::rotation::right);
+                }
                 break;
             case input_event::rotate_counterclockwise:
-
+                if (should_autorepeat(event))
+                {
+                    active_piece->rotate(piece::rotation::left);
+                }
                 break;
         }
     }

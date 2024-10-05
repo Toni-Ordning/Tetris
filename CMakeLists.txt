@@ -12,6 +12,7 @@ add_executable(main
     src/input.cpp
     src/main.cpp
     src/piece.cpp
+    src/pieces.cpp
     src/piece_generator.cpp
     src/playfield.cpp
     src/renderer.cpp

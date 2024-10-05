@@ -2,6 +2,7 @@
 
 #include <raylib.h>
 
+#include <memory>
 #include <vector>
 
 #include "playfield.h"
@@ -20,7 +21,15 @@ class piece
             t,
         };
 
-        piece(piece_type type);
+        enum class rotation
+        {
+            original,
+            right,
+            left,
+            twice,
+        };
+
+        virtual void rotate(rotation) = 0;
 
         int get_x() const noexcept;
         int get_y() const noexcept;
@@ -35,23 +44,18 @@ class piece
         bool get_block(int x, int y) const;
         Color get_color() const;
 
-        void draw(int field_position, int tile_size, const Color& tile_color, const Color& background);
+        void draw(int field_position, int tile_size, const Color& tile_color, const Color& background) const;
 
-    private:
-        void i_piece();
-        void j_piece();
-        void l_piece();
-        void o_piece();
-        void s_piece();
-        void z_piece();
-        void t_piece();
-
+    protected: 
         int width = 0;
         int height = 0;
         int x = 0;
         int y = 0;
         std::vector<bool> blocks;
         Color color = light_white;
+        rotation current_rotation = rotation::original;
         
         void set_block(int x, int y);
 };
+
+std::unique_ptr<piece> build_piece(piece::piece_type type);

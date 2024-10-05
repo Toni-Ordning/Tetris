@@ -7,5 +7,5 @@
 class piece_generator
 {
     public:
-        std::deque<piece> generate_pieces();
+        std::deque<std::unique_ptr<piece>> generate_pieces();
 };

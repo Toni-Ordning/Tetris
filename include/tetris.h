@@ -23,13 +23,13 @@ class tetris
         int get_height() const noexcept;
         
         const tile& get_tile(int x, int y) const;
-        const std::optional<piece> get_piece() const;
+        piece* get_piece() const;
 
     private:
         playfield field;
-        std::optional<piece> active_piece;
+        std::unique_ptr<piece> active_piece = nullptr;
         piece_generator generator;
-        std::deque<piece> random_pieces;
+        std::deque<std::unique_ptr<piece>> random_pieces;
 
         tetris_time_point last_falldown_time = tetris_clock::now();
         int level = 1;
