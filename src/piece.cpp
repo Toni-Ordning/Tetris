@@ -109,7 +109,7 @@ void piece::move_left(const playfield& field)
 
     for (int y = 0; y < height; ++y)
     {
-        if (field.get_tile(x-1, y).has_shape)
+        if (field.get_tile(x-1, this->y + y).has_shape)
         {
             return;
         }
@@ -127,7 +127,7 @@ void piece::move_right(const playfield& field)
 
     for (int y = 0; y < height; ++y)
     {
-        if (field.get_tile(x + width - 1, y).has_shape)
+        if (field.get_tile(x + width + 1, this->y + y).has_shape)
         {
             return;
         }

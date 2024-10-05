@@ -29,7 +29,6 @@ class piece
 
         bool can_move_down(const playfield& field);
         void move_down();
-
         void move_left(const playfield& field);
         void move_right(const playfield& field);
 
