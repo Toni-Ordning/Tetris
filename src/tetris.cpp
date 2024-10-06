@@ -23,7 +23,6 @@ void tetris::tick()
     {
         if (random_pieces.empty())
         {
-            std::cout << "Generating pieces" << std::endl;
             random_pieces = generator.generate_pieces();
         }
 
