@@ -9,6 +9,7 @@ class i_piece : public piece
 
         void rotate(rotation r) override;
     private:
+        void set_blocks(rotation r);
 };
 
 class j_piece : public piece

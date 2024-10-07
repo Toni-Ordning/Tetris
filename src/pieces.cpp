@@ -8,41 +8,49 @@ i_piece::i_piece()
     height = 1;
     x = 3;
     y = 0;
-    blocks = std::vector<bool>(width * height, false);
-    set_block(0, 0);
-    set_block(1, 0);
-    set_block(2, 0);
-    set_block(3, 0);
     color = light_blue;
+    set_blocks(rotation::original);
+}
+
+void i_piece::set_blocks(rotation r)
+{
+    blocks = std::vector<bool>(width * height, false);
+
+    if (r == rotation::original || r == rotation::twice)
+    {
+        set_block(0, 0);
+        set_block(1, 0);
+        set_block(2, 0);
+        set_block(3, 0);
+    }
+    else
+    {
+        set_block(0, 0);
+        set_block(0, 1);
+        set_block(0, 2);
+        set_block(0, 3);
+    } 
 }
 
 void i_piece::rotate(rotation r)
 {
+    assert(r == rotation::right || r == rotation::left);
+
+    std::swap(width, height);
+
     if (current_rotation == rotation::original)
     {
         if (r == rotation::right)
         {
             current_rotation = rotation::right;
-            std::swap(width, height);
             x += 2;
             y -= 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(0, 2);
-            set_block(0, 3);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::left;
-            std::swap(width, height);
             x += 1;
             y -= 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(0, 2);
-            set_block(0, 3);
         }
     }
     else if (current_rotation == rotation::right)
@@ -50,26 +58,14 @@ void i_piece::rotate(rotation r)
         if (r == rotation::right)
         {
             current_rotation = rotation::twice;
-            std::swap(width, height);
             x -= 2;
             y += 2;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(3, 0);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::original;
-            std::swap(width, height);
             x -= 2;
             y += 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(3, 0);
         }
     }
     else if (current_rotation == rotation::twice)
@@ -77,26 +73,14 @@ void i_piece::rotate(rotation r)
         if (r == rotation::right)
         {
             current_rotation = rotation::left;
-            std::swap(width, height);
             x += 1;
             y -= 2;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(0, 2);
-            set_block(0, 3);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::right;
-            std::swap(width, height);
             x += 2;
             y -= 2;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(0, 2);
-            set_block(0, 3);
         }
     }
     else if (current_rotation == rotation::left)
@@ -104,32 +88,18 @@ void i_piece::rotate(rotation r)
         if (r == rotation::right)
         {
             current_rotation = rotation::original;
-            std::swap(width, height);
             x -= 1;
             y += 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(3, 0);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::twice;
-            std::swap(width, height);
             x -= 1;
             y += 2;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(3, 0);
         }
     }
-    else
-    {
-        assert(false);
-    }
+
+    set_blocks(current_rotation);
 }
 
 j_piece::j_piece()
@@ -148,6 +118,8 @@ j_piece::j_piece()
 
 void j_piece::rotate(rotation r)
 {
+    assert(r == rotation::right || r == rotation::left);
+    
     if (current_rotation == rotation::original)
     {
         if (r == rotation::right)
@@ -247,10 +219,6 @@ void j_piece::rotate(rotation r)
             set_block(2, 0);
             set_block(2, 1);
         }
-    }
-    else
-    {
-        assert(false);
     }
 }
 
@@ -270,6 +238,8 @@ l_piece::l_piece()
 
 void l_piece::rotate(rotation r)
 {
+    assert(r == rotation::right || r == rotation::left);
+    
     if (current_rotation == rotation::original)
     {
         if (r == rotation::right)
@@ -369,10 +339,6 @@ void l_piece::rotate(rotation r)
             set_block(2, 0);
             set_block(0, 1);
         }
-    }
-    else
-    {
-        assert(false);
     }
 }
 
@@ -411,6 +377,8 @@ s_piece::s_piece()
 
 void s_piece::rotate(rotation r)
 {
+    assert(r == rotation::right || r == rotation::left);
+
     if (current_rotation == rotation::original)
     {
         if (r == rotation::right)
@@ -510,10 +478,6 @@ void s_piece::rotate(rotation r)
             set_block(0, 1);
             set_block(1, 1);
         }
-    }
-    else
-    {
-        assert(false);
     }
 }
 
@@ -533,6 +497,8 @@ z_piece::z_piece()
 
 void z_piece::rotate(rotation r)
 {
+    assert(r == rotation::right || r == rotation::left);
+
     if (current_rotation == rotation::original)
     {
         if (r == rotation::right)
@@ -632,10 +598,6 @@ void z_piece::rotate(rotation r)
             set_block(1, 1);
             set_block(2, 1);
         }
-    }
-    else
-    {
-        assert(false);
     }
 }
 
@@ -656,6 +618,8 @@ t_piece::t_piece()
 
 void t_piece::rotate(rotation r)
 {
+    assert(r == rotation::right || r == rotation::left);
+
     if (current_rotation == rotation::original)
     {
         if (r == rotation::right)
@@ -755,9 +719,5 @@ void t_piece::rotate(rotation r)
             set_block(2, 0);
             set_block(1, 1);
         }
-    }
-    else
-    {
-        assert(false);
     }
 }
