@@ -18,6 +18,8 @@ class j_piece : public piece
         j_piece();
 
         void rotate(rotation r) override;
+    private:
+        void set_blocks(rotation r);
 };
 
 class l_piece : public piece
