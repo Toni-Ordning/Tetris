@@ -66,4 +66,6 @@ class t_piece : public piece
         t_piece();
 
         void rotate(rotation r) override;
+    private:
+        void set_blocks(rotation r);
 };

@@ -527,41 +527,60 @@ t_piece::t_piece()
     height = 2;
     x = 3;
     y = 0;
-    blocks = std::vector<bool>(width * height, false);
-    set_block(1, 0);
-    set_block(0, 1);
-    set_block(1, 1);
-    set_block(2, 1);
     color = magenta;
+    set_blocks(rotation::original);
 }
 
+void t_piece::set_blocks(rotation r)
+{
+    blocks = std::vector<bool>(width * height, false);
+
+    if (r == rotation::original)
+    {
+        set_block(1, 0);
+        set_block(0, 1);
+        set_block(1, 1);
+        set_block(2, 1);
+    }
+    else if (r == rotation::right)
+    {
+        set_block(0, 0);
+        set_block(0, 1);
+        set_block(1, 1);
+        set_block(0, 2);
+    } 
+    else if (r == rotation::twice)
+    {
+        set_block(0, 0);
+        set_block(1, 0);
+        set_block(2, 0);
+        set_block(1, 1);
+    }
+    else
+    {
+        set_block(1, 0);
+        set_block(0, 1);
+        set_block(1, 1);
+        set_block(1, 2);
+    }
+}
 
 void t_piece::rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
+
+    std::swap(width, height);
 
     if (current_rotation == rotation::original)
     {
         if (r == rotation::right)
         {
             current_rotation = rotation::right;
-            std::swap(width, height);
             x += 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(0, 2);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::left;
-            std::swap(width, height);
-            blocks = std::vector<bool>(width * height, false);
-            set_block(1, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(1, 2);
         }
     }
     else if (current_rotation == rotation::right)
@@ -569,25 +588,13 @@ void t_piece::rotate(rotation r)
         if (r == rotation::right)
         {
             current_rotation = rotation::twice;
-            std::swap(width, height);
             x -= 1;
             y += 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(1, 1);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::original;
-            std::swap(width, height);
             x -= 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(1, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(2, 1);
         }
     }
     else if (current_rotation == rotation::twice)
@@ -595,25 +602,13 @@ void t_piece::rotate(rotation r)
         if (r == rotation::right)
         {
             current_rotation = rotation::left;
-            std::swap(width, height);
             y -= 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(1, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(1, 2);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::right;
-            std::swap(width, height);
             x += 1;
             y -= 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(0, 2);
         }
     }
     else if (current_rotation == rotation::left)
@@ -621,23 +616,13 @@ void t_piece::rotate(rotation r)
         if (r == rotation::right)
         {
             current_rotation = rotation::original;
-            std::swap(width, height);
-            blocks = std::vector<bool>(width * height, false);
-            set_block(1, 0);
-            set_block(0, 1);
-            set_block(1, 1);
-            set_block(2, 1);
         }
         else if (r == rotation::left)
         {
             current_rotation = rotation::twice;
-            std::swap(width, height);
             y += 1;
-            blocks = std::vector<bool>(width * height, false);
-            set_block(0, 0);
-            set_block(1, 0);
-            set_block(2, 0);
-            set_block(1, 1);
         }
     }
+
+    set_blocks(current_rotation);
 }
