@@ -1,6 +1,9 @@
 #include "pieces.h"
 
 #include <cassert>
+#include <map>
+
+static piece::rotation get_next_rotation(piece::rotation current_rotation, piece::rotation twist);
 
 i_piece::i_piece()
 {
@@ -42,13 +45,11 @@ void i_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::right;
             x += 2;
             y -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::left;
             x += 1;
             y -= 1;
         }
@@ -57,13 +58,11 @@ void i_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::twice;
             x -= 2;
             y += 2;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::original;
             x -= 2;
             y += 1;
         }
@@ -72,13 +71,11 @@ void i_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::left;
             x += 1;
             y -= 2;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::right;
             x += 2;
             y -= 2;
         }
@@ -87,19 +84,39 @@ void i_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::original;
             x -= 1;
             y += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::twice;
             x -= 1;
             y += 2;
         }
     }
 
+    current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
+}
+
+static piece::rotation get_next_rotation(piece::rotation current_rotation, piece::rotation twist)
+{
+    using rotation = piece::rotation;
+
+    assert(twist == rotation::right || twist == rotation::left);
+
+    std::map<std::pair<rotation, rotation>, rotation> rotations
+    {
+        {{rotation::original, rotation::right}, rotation::right},
+        {{rotation::original, rotation::left}, rotation::left},
+        {{rotation::right, rotation::right}, rotation::twice},
+        {{rotation::right, rotation::left}, rotation::original},
+        {{rotation::twice, rotation::right}, rotation::left},
+        {{rotation::twice, rotation::left}, rotation::right},
+        {{rotation::left, rotation::right}, rotation::original},
+        {{rotation::left, rotation::left}, rotation::twice},
+    };
+
+    return rotations.at({current_rotation, twist});
 }
 
 j_piece::j_piece()
@@ -156,25 +173,21 @@ void j_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::right;
             x += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::left;
         }
     }
     else if (current_rotation == rotation::right)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::twice;
             y += 1;
             x -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::original;
             x -= 1;
         }
     }
@@ -182,12 +195,10 @@ void j_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::left;
             y -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::right;
             y -= 1;
             x += 1;
         }
@@ -196,15 +207,14 @@ void j_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::original;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::twice;
             y += 1;
         }
     }
 
+    current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
 
@@ -262,25 +272,21 @@ void l_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::right;
             x += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::left;
         }
     }
     else if (current_rotation == rotation::right)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::twice;
             y += 1;
             x -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::original;
             x -= 1;
         }
     }
@@ -288,12 +294,10 @@ void l_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::left;
             y -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::right;
             y -= 1;
             x += 1;
         }
@@ -302,15 +306,14 @@ void l_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::original;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::twice;
             y += 1;
         }
     }
 
+    current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
 
@@ -373,25 +376,21 @@ void s_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::right;
             x += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::left;
         }
     }
     else if (current_rotation == rotation::right)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::twice;
             x -= 1;
             y += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::original;
             x -= 1;
         }
     }
@@ -399,12 +398,10 @@ void s_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::left;
             y -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::right;
             x += 1;
             y -= 1;
         }
@@ -413,15 +410,14 @@ void s_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::original;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::twice;
             y += 1;
         }
     }
 
+    current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
 
@@ -469,25 +465,21 @@ void z_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::right;
             x += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::left;
         }
     }
     else if (current_rotation == rotation::right)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::twice;
             x -= 1;
             y += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::original;
             x -= 1;
         }
     }
@@ -495,12 +487,10 @@ void z_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::left;
             y -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::right;
             x += 1;
             y -= 1;
         }
@@ -509,15 +499,14 @@ void z_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::original;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::twice;
             y += 1;
         }
     }
 
+    current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
 
@@ -575,25 +564,21 @@ void t_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::right;
             x += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::left;
         }
     }
     else if (current_rotation == rotation::right)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::twice;
             x -= 1;
             y += 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::original;
             x -= 1;
         }
     }
@@ -601,12 +586,10 @@ void t_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::left;
             y -= 1;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::right;
             x += 1;
             y -= 1;
         }
@@ -615,14 +598,13 @@ void t_piece::rotate(rotation r)
     {
         if (r == rotation::right)
         {
-            current_rotation = rotation::original;
         }
         else if (r == rotation::left)
         {
-            current_rotation = rotation::twice;
             y += 1;
         }
     }
 
+    current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
