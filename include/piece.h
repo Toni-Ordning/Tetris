@@ -45,7 +45,7 @@ class piece
         Color get_color() const;
 
         void draw(int field_position, int tile_size, const Color& tile_color, const Color& background) const;
-
+        
     protected: 
         int width = 0;
         int height = 0;

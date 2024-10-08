@@ -4,6 +4,32 @@
 #include <map>
 
 static piece::rotation get_next_rotation(piece::rotation current_rotation, piece::rotation twist);
+static void set_rotation_offset(piece::rotation old, piece::rotation current, bool is_i_piece, int& x, int& y);
+
+using rotation_pair = std::pair<piece::rotation, piece::rotation>;
+using offset = std::pair<int, int>;
+
+const std::map<rotation_pair, offset> i_piece_offsets
+{
+    {{piece::rotation::original, piece::rotation::right}, {2, -1}},
+    {{piece::rotation::original, piece::rotation::left}, {1, -1}},
+    {{piece::rotation::right, piece::rotation::right}, {-2, 2}},
+    {{piece::rotation::right, piece::rotation::left}, {-2, 1}},
+    {{piece::rotation::twice, piece::rotation::right}, {1, -2}},
+    {{piece::rotation::twice, piece::rotation::left}, {2, -2}},
+    {{piece::rotation::left, piece::rotation::right}, {-1, 1}},
+    {{piece::rotation::left, piece::rotation::left}, {-1, 2}},
+};
+
+const std::map<rotation_pair, offset> other_piece_offsets
+{
+    {{piece::rotation::original, piece::rotation::right}, {1, 0}},
+    {{piece::rotation::right, piece::rotation::right}, {-1, 1}},
+    {{piece::rotation::right, piece::rotation::left}, {-1, 0}},
+    {{piece::rotation::twice, piece::rotation::right}, {0, -1}},
+    {{piece::rotation::twice, piece::rotation::left}, {1, -1}},
+    {{piece::rotation::left, piece::rotation::left}, {0, 1}},
+};
 
 i_piece::i_piece()
 {
@@ -40,62 +66,23 @@ void i_piece::rotate(rotation r)
     assert(r == rotation::right || r == rotation::left);
 
     std::swap(width, height);
-
-    if (current_rotation == rotation::original)
-    {
-        if (r == rotation::right)
-        {
-            x += 2;
-            y -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            x += 1;
-            y -= 1;
-        }
-    }
-    else if (current_rotation == rotation::right)
-    {
-        if (r == rotation::right)
-        {
-            x -= 2;
-            y += 2;
-        }
-        else if (r == rotation::left)
-        {
-            x -= 2;
-            y += 1;
-        }
-    }
-    else if (current_rotation == rotation::twice)
-    {
-        if (r == rotation::right)
-        {
-            x += 1;
-            y -= 2;
-        }
-        else if (r == rotation::left)
-        {
-            x += 2;
-            y -= 2;
-        }
-    }
-    else if (current_rotation == rotation::left)
-    {
-        if (r == rotation::right)
-        {
-            x -= 1;
-            y += 1;
-        }
-        else if (r == rotation::left)
-        {
-            x -= 1;
-            y += 2;
-        }
-    }
-
+    set_rotation_offset(current_rotation, r, true, x, y);
     current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
+}
+
+static void set_rotation_offset(piece::rotation old, piece::rotation current, bool is_i_piece, int& x, int& y)
+{
+    const std::map<rotation_pair, offset>& offsets = is_i_piece
+        ? i_piece_offsets
+        : other_piece_offsets;
+
+    if (offsets.contains({old, current}))
+    {
+        offset off = offsets.at({old, current});
+        x += off.first;
+        y += off.second;
+    }
 }
 
 static piece::rotation get_next_rotation(piece::rotation current_rotation, piece::rotation twist)
@@ -168,52 +155,7 @@ void j_piece::rotate(rotation r)
     assert(r == rotation::right || r == rotation::left);
     
     std::swap(width, height);
-
-    if (current_rotation == rotation::original)
-    {
-        if (r == rotation::right)
-        {
-            x += 1;
-        }
-        else if (r == rotation::left)
-        {
-        }
-    }
-    else if (current_rotation == rotation::right)
-    {
-        if (r == rotation::right)
-        {
-            y += 1;
-            x -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            x -= 1;
-        }
-    }
-    else if (current_rotation == rotation::twice)
-    {
-        if (r == rotation::right)
-        {
-            y -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            y -= 1;
-            x += 1;
-        }
-    }
-    else if (current_rotation == rotation::left)
-    {
-        if (r == rotation::right)
-        {
-        }
-        else if (r == rotation::left)
-        {
-            y += 1;
-        }
-    }
-
+    set_rotation_offset(current_rotation, r, false, x, y);
     current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
@@ -267,52 +209,7 @@ void l_piece::rotate(rotation r)
     assert(r == rotation::right || r == rotation::left);
 
     std::swap(width, height);
-
-    if (current_rotation == rotation::original)
-    {
-        if (r == rotation::right)
-        {
-            x += 1;
-        }
-        else if (r == rotation::left)
-        {
-        }
-    }
-    else if (current_rotation == rotation::right)
-    {
-        if (r == rotation::right)
-        {
-            y += 1;
-            x -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            x -= 1;
-        }
-    }
-    else if (current_rotation == rotation::twice)
-    {
-        if (r == rotation::right)
-        {
-            y -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            y -= 1;
-            x += 1;
-        }
-    }
-    else if (current_rotation == rotation::left)
-    {
-        if (r == rotation::right)
-        {
-        }
-        else if (r == rotation::left)
-        {
-            y += 1;
-        }
-    }
-
+    set_rotation_offset(current_rotation, r, false, x, y);
     current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
@@ -371,52 +268,7 @@ void s_piece::rotate(rotation r)
     assert(r == rotation::right || r == rotation::left);
 
     std::swap(width, height);
-
-    if (current_rotation == rotation::original)
-    {
-        if (r == rotation::right)
-        {
-            x += 1;
-        }
-        else if (r == rotation::left)
-        {
-        }
-    }
-    else if (current_rotation == rotation::right)
-    {
-        if (r == rotation::right)
-        {
-            x -= 1;
-            y += 1;
-        }
-        else if (r == rotation::left)
-        {
-            x -= 1;
-        }
-    }
-    else if (current_rotation == rotation::twice)
-    {
-        if (r == rotation::right)
-        {
-            y -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            x += 1;
-            y -= 1;
-        }
-    }
-    else if (current_rotation == rotation::left)
-    {
-        if (r == rotation::right)
-        {
-        }
-        else if (r == rotation::left)
-        {
-            y += 1;
-        }
-    }
-
+    set_rotation_offset(current_rotation, r, false, x, y);
     current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
@@ -460,52 +312,7 @@ void z_piece::rotate(rotation r)
     assert(r == rotation::right || r == rotation::left);
 
     std::swap(width, height);
-
-    if (current_rotation == rotation::original)
-    {
-        if (r == rotation::right)
-        {
-            x += 1;
-        }
-        else if (r == rotation::left)
-        {
-        }
-    }
-    else if (current_rotation == rotation::right)
-    {
-        if (r == rotation::right)
-        {
-            x -= 1;
-            y += 1;
-        }
-        else if (r == rotation::left)
-        {
-            x -= 1;
-        }
-    }
-    else if (current_rotation == rotation::twice)
-    {
-        if (r == rotation::right)
-        {
-            y -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            x += 1;
-            y -= 1;
-        }
-    }
-    else if (current_rotation == rotation::left)
-    {
-        if (r == rotation::right)
-        {
-        }
-        else if (r == rotation::left)
-        {
-            y += 1;
-        }
-    }
-
+    set_rotation_offset(current_rotation, r, false, x, y);
     current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
@@ -559,52 +366,7 @@ void t_piece::rotate(rotation r)
     assert(r == rotation::right || r == rotation::left);
 
     std::swap(width, height);
-
-    if (current_rotation == rotation::original)
-    {
-        if (r == rotation::right)
-        {
-            x += 1;
-        }
-        else if (r == rotation::left)
-        {
-        }
-    }
-    else if (current_rotation == rotation::right)
-    {
-        if (r == rotation::right)
-        {
-            x -= 1;
-            y += 1;
-        }
-        else if (r == rotation::left)
-        {
-            x -= 1;
-        }
-    }
-    else if (current_rotation == rotation::twice)
-    {
-        if (r == rotation::right)
-        {
-            y -= 1;
-        }
-        else if (r == rotation::left)
-        {
-            x += 1;
-            y -= 1;
-        }
-    }
-    else if (current_rotation == rotation::left)
-    {
-        if (r == rotation::right)
-        {
-        }
-        else if (r == rotation::left)
-        {
-            y += 1;
-        }
-    }
-
+    set_rotation_offset(current_rotation, r, false, x, y);
     current_rotation = get_next_rotation(current_rotation, r);
     set_blocks(current_rotation);
 }
