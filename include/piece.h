@@ -29,7 +29,10 @@ class piece
             twice,
         };
 
-        virtual void rotate(rotation) = 0;
+        virtual ~piece() = default;
+
+        virtual bool can_rotate(rotation r, const playfield& field) = 0;
+        virtual void rotate(rotation r) = 0;
 
         int get_x() const noexcept;
         int get_y() const noexcept;
@@ -56,6 +59,7 @@ class piece
         rotation current_rotation = rotation::original;
         
         void set_block(int x, int y);
+        bool is_colliding(const playfield& field);
 };
 
 std::unique_ptr<piece> build_piece(piece::piece_type type);

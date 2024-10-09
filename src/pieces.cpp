@@ -61,6 +61,16 @@ void i_piece::set_blocks(rotation r)
     } 
 }
 
+bool i_piece::can_rotate(rotation r, const playfield& field)
+{
+    assert(r == rotation::right || r == rotation::left);
+
+    i_piece copy = *this;
+    copy.rotate(r);
+
+    return !copy.is_colliding(field);
+}
+
 void i_piece::rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
@@ -150,6 +160,16 @@ void j_piece::set_blocks(rotation r)
     }
 }
 
+bool j_piece::can_rotate(rotation r, const playfield& field)
+{
+    assert(r == rotation::right || r == rotation::left);
+
+    j_piece copy = *this;
+    copy.rotate(r);
+
+    return !copy.is_colliding(field);
+}
+
 void j_piece::rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
@@ -204,6 +224,16 @@ void l_piece::set_blocks(rotation r)
     }
 }
 
+bool l_piece::can_rotate(rotation r, const playfield& field)
+{
+    assert(r == rotation::right || r == rotation::left);
+
+    l_piece copy = *this;
+    copy.rotate(r);
+
+    return !copy.is_colliding(field);
+}
+
 void l_piece::rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
@@ -229,6 +259,11 @@ o_piece::o_piece()
 }
 
 // No need to rotate o_piece
+bool o_piece::can_rotate(rotation r, const playfield& field)
+{
+    return true;
+}
+
 void o_piece::rotate(rotation r)
 {
 }
@@ -261,6 +296,16 @@ void s_piece::set_blocks(rotation r)
         set_block(1, 1);
         set_block(1, 2);
     } 
+}
+
+bool s_piece::can_rotate(rotation r, const playfield& field)
+{
+    assert(r == rotation::right || r == rotation::left);
+
+    s_piece copy = *this;
+    copy.rotate(r);
+
+    return !copy.is_colliding(field);
 }
 
 void s_piece::rotate(rotation r)
@@ -305,6 +350,16 @@ void z_piece::set_blocks(rotation r)
         set_block(1, 1);
         set_block(0, 2);
     } 
+}
+
+bool z_piece::can_rotate(rotation r, const playfield& field)
+{
+    assert(r == rotation::right || r == rotation::left);
+
+    z_piece copy = *this;
+    copy.rotate(r);
+
+    return !copy.is_colliding(field);
 }
 
 void z_piece::rotate(rotation r)
@@ -359,6 +414,16 @@ void t_piece::set_blocks(rotation r)
         set_block(1, 1);
         set_block(1, 2);
     }
+}
+
+bool t_piece::can_rotate(rotation r, const playfield& field)
+{
+    assert(r == rotation::right || r == rotation::left);
+
+    t_piece copy = *this;
+    copy.rotate(r);
+
+    return !copy.is_colliding(field);
 }
 
 void t_piece::rotate(rotation r)

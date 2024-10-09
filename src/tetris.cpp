@@ -136,12 +136,22 @@ void tetris::process_events(std::deque<input_event>& events)
             case input_event::rotate_clockwise:
                 if (should_autorepeat(event))
                 {
+                    if (!active_piece->can_rotate(piece::rotation::right, field))
+                    {
+                        return;
+                    }
+
                     active_piece->rotate(piece::rotation::right);
                 }
                 break;
             case input_event::rotate_counterclockwise:
                 if (should_autorepeat(event))
                 {
+                    if (!active_piece->can_rotate(piece::rotation::left, field))
+                    {
+                        return;
+                    }
+
                     active_piece->rotate(piece::rotation::left);
                 }
                 break;

@@ -147,3 +147,18 @@ void piece::draw(int field_position, int tile_size, const Color& tile_color, con
         }
     }
 }
+
+bool piece::is_colliding(const playfield& field)
+{
+    if (x < 0)
+    {
+        return true;
+    }
+
+    if (x + width > field.get_width())
+    {
+        return true;
+    }
+
+    return false;
+}
