@@ -121,7 +121,13 @@ void piece::move_right(const playfield& field)
 
     for (int y = 0; y < height; ++y)
     {
-        if (field.get_tile(x + width + 1, this->y + y).has_shape)
+        int index = y * width + width - 1;
+        if (!blocks.at(index))
+        {
+            continue;
+        }
+
+        if (field.get_tile(x + width, this->y + y).has_shape)
         {
             return;
         }
