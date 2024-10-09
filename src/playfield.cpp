@@ -35,3 +35,22 @@ void playfield::set_tile(int x, int y, const Color& color)
     int index = y * width + x;
     tiles.at(index) = tile{color, true};
 }
+
+void playfield::clear_tile(int x, int y)
+{
+    int index = y * width + x;
+    tiles.at(index) = tile{light_white, false};
+}
+
+void playfield::move_tile_down(int x, int y)
+{
+    if (y == 0 || y == height - 1)
+    {
+        return;
+    }
+
+    int index = y * width + x;
+    int line_below_index = (y+1) * width + x;
+    tiles.at(line_below_index) = tiles.at(index);
+    clear_tile(x, y);
+}

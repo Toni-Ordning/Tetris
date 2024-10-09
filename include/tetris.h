@@ -35,4 +35,5 @@ class tetris
         int level = 1;
 
         bool should_move_piece_down();
+        void clear_complete_lines();
 };

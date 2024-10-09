@@ -44,6 +44,8 @@ void tetris::tick()
         }
 
         active_piece.reset();
+
+        clear_complete_lines();
     }
     else if (should_move_piece_down())
     {
@@ -155,6 +157,46 @@ void tetris::process_events(std::deque<input_event>& events)
                     active_piece->rotate(piece::rotation::left);
                 }
                 break;
+        }
+    }
+}
+
+void tetris::clear_complete_lines()
+{
+    int lowest_line_cleared = 0;
+    for (int y = field.get_height() - 1; y > 0; --y)
+    {
+        bool should_remove_line = true;
+        for (int x = 0; x < field.get_width(); ++x)
+        {
+            if (!field.get_tile(x, y).has_shape)
+            {
+                should_remove_line = false;
+            }
+        }
+
+        if (!should_remove_line)
+        {
+            continue;
+        }
+
+        for (int x = 0; x < field.get_width(); ++x)
+        {
+            field.clear_tile(x, y);
+            lowest_line_cleared = std::max(lowest_line_cleared, y);
+        }
+    }
+
+    if (lowest_line_cleared == 0)
+    {
+        return;
+    }
+
+    for (int y = lowest_line_cleared; y >= 0; --y)
+    {
+        for (int x = 0; x < field.get_width(); ++x)
+        {
+            field.move_tile_down(x, y);
         }
     }
 }
