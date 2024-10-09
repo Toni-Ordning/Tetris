@@ -160,5 +160,22 @@ bool piece::is_colliding(const playfield& field)
         return true;
     }
 
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            int index = y * width + x;
+            if (!blocks.at(index))
+            {
+                continue;
+            }
+
+            if (field.get_tile(this->x + x, this-> y + y).has_shape)
+            {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
