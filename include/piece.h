@@ -29,9 +29,10 @@ class piece
             twice,
         };
 
+        piece(const playfield& field);
         virtual ~piece() = default;
 
-        virtual bool can_rotate(rotation r, const playfield& field) = 0;
+        virtual bool can_rotate(rotation r) = 0;
         virtual void rotate(rotation r) = 0;
 
         int get_x() const noexcept;
@@ -39,10 +40,10 @@ class piece
         int get_width() const noexcept;
         int get_height() const noexcept;
 
-        bool can_move_down(const playfield& field);
+        bool can_move_down();
         void move_down();
-        void move_left(const playfield& field);
-        void move_right(const playfield& field);
+        void move_left();
+        void move_right();
 
         bool get_block(int x, int y) const;
         Color get_color() const;
@@ -57,9 +58,11 @@ class piece
         std::vector<bool> blocks;
         Color color = light_white;
         rotation current_rotation = rotation::original;
+
+        const playfield& field;
         
         void set_block(int x, int y);
-        bool is_colliding(const playfield& field);
+        bool is_colliding();
 };
 
-std::unique_ptr<piece> build_piece(piece::piece_type type);
+std::unique_ptr<piece> build_piece(piece::piece_type type, const playfield& field);

@@ -23,19 +23,19 @@ void tetris::tick()
     {
         if (random_pieces.empty())
         {
-            random_pieces = generator.generate_pieces();
+            random_pieces = generator.generate_pieces(field);
         }
 
         active_piece = std::move(random_pieces.front());
         random_pieces.pop_front();
 
-        if (!active_piece->can_move_down(field))
+        if (!active_piece->can_move_down())
         {
             state = game_state::over;
         }
     }
 
-    if (!active_piece->can_move_down(field))
+    if (!active_piece->can_move_down())
     {
         for (int y = active_piece->get_height() - 1; y >= 0; --y)
         {
@@ -117,7 +117,7 @@ void tetris::process_events(std::deque<input_event>& events)
                     continue;
                 }
 
-                while (active_piece->can_move_down(field))
+                while (active_piece->can_move_down())
                 {
                     active_piece->move_down();
                 }
@@ -125,17 +125,17 @@ void tetris::process_events(std::deque<input_event>& events)
             case input_event::move_piece_left:
                 if (should_autorepeat(event))
                 {
-                    active_piece->move_left(field);
+                    active_piece->move_left();
                 }
                 break;
             case input_event::move_piece_right:
                 if (should_autorepeat(event))
                 {
-                    active_piece->move_right(field);
+                    active_piece->move_right();
                 }
                 break;
             case input_event::soft_drop:
-                if (should_autorepeat(event) && active_piece->can_move_down(field))
+                if (should_autorepeat(event) && active_piece->can_move_down())
                 {
                     active_piece->move_down();
                 }
@@ -143,7 +143,7 @@ void tetris::process_events(std::deque<input_event>& events)
             case input_event::rotate_clockwise:
                 if (should_autorepeat(event))
                 {
-                    if (!active_piece->can_rotate(piece::rotation::right, field))
+                    if (!active_piece->can_rotate(piece::rotation::right))
                     {
                         return;
                     }
@@ -154,7 +154,7 @@ void tetris::process_events(std::deque<input_event>& events)
             case input_event::rotate_counterclockwise:
                 if (should_autorepeat(event))
                 {
-                    if (!active_piece->can_rotate(piece::rotation::left, field))
+                    if (!active_piece->can_rotate(piece::rotation::left))
                     {
                         return;
                     }

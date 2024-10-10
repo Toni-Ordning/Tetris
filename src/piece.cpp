@@ -3,24 +3,29 @@
 #include "constants.h"
 #include "pieces.h"
 
-std::unique_ptr<piece> build_piece(piece::piece_type type)
+piece::piece(const playfield& field)
+    : field{field}
+{
+}
+
+std::unique_ptr<piece> build_piece(piece::piece_type type, const playfield& field)
 {
     switch (type)
     {
         case piece::piece_type::i:
-            return std::make_unique<i_piece>();
+            return std::make_unique<i_piece>(field);
         case piece::piece_type::j:
-            return std::make_unique<j_piece>();
+            return std::make_unique<j_piece>(field);
         case piece::piece_type::l:
-            return std::make_unique<l_piece>();
+            return std::make_unique<l_piece>(field);
         case piece::piece_type::o:
-            return std::make_unique<o_piece>();
+            return std::make_unique<o_piece>(field);
         case piece::piece_type::s:
-            return std::make_unique<s_piece>();
+            return std::make_unique<s_piece>(field);
         case piece::piece_type::z:
-            return std::make_unique<z_piece>();
+            return std::make_unique<z_piece>(field);
         case piece::piece_type::t:
-            return std::make_unique<t_piece>();
+            return std::make_unique<t_piece>(field);
         default:
             throw "Constructing unknown piece type!";
     }
@@ -63,7 +68,7 @@ Color piece::get_color() const
     return color;
 }
 
-bool piece::can_move_down(const playfield& field)
+bool piece::can_move_down()
 {
     for (int y = height - 1; y >= 0; --y)
     {
@@ -94,7 +99,7 @@ void piece::move_down()
     y += 1;
 }
 
-void piece::move_left(const playfield& field)
+void piece::move_left()
 {
     if (x == 0)
     {
@@ -112,7 +117,7 @@ void piece::move_left(const playfield& field)
     --x;
 }
 
-void piece::move_right(const playfield& field)
+void piece::move_right()
 {
     if (x + width >= field.get_width())
     {
@@ -154,7 +159,7 @@ void piece::draw(int field_position, int tile_size, const Color& tile_color, con
     }
 }
 
-bool piece::is_colliding(const playfield& field)
+bool piece::is_colliding()
 {
     if (x < 0)
     {

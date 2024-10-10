@@ -1,13 +1,14 @@
 #pragma once
 
 #include "piece.h"
+#include "playfield.h"
 
 class i_piece : public piece
 {
     public:
-        i_piece();
+        i_piece(const playfield& field);
 
-        bool can_rotate(rotation r, const playfield& field) override;
+        bool can_rotate(rotation r) override;
         void rotate(rotation r) override;
     private:
         void set_blocks(rotation r);
@@ -16,9 +17,9 @@ class i_piece : public piece
 class j_piece : public piece
 {
     public:
-        j_piece();
+        j_piece(const playfield& field);
 
-        bool can_rotate(rotation r, const playfield& field) override;
+        bool can_rotate(rotation r) override;
         void rotate(rotation r) override;
     private:
         void set_blocks(rotation r);
@@ -27,9 +28,9 @@ class j_piece : public piece
 class l_piece : public piece
 {
     public:
-        l_piece();
+        l_piece(const playfield& field);
 
-        bool can_rotate(rotation r, const playfield& field) override;
+        bool can_rotate(rotation r) override;
         void rotate(rotation r) override;
     private:
         void set_blocks(rotation r);
@@ -38,18 +39,18 @@ class l_piece : public piece
 class o_piece : public piece
 {
     public:
-        o_piece();
+        o_piece(const playfield& field);
 
-        bool can_rotate(rotation r, const playfield& field) override;
+        bool can_rotate(rotation r) override;
         void rotate(rotation r) override;
 };
 
 class s_piece : public piece
 {
     public:
-        s_piece();
+        s_piece(const playfield& field);
 
-        bool can_rotate(rotation r, const playfield& field) override;
+        bool can_rotate(rotation r) override;
         void rotate(rotation r) override;
     private:
         void set_blocks(rotation r);
@@ -58,9 +59,9 @@ class s_piece : public piece
 class z_piece : public piece
 {
     public:
-        z_piece();
+        z_piece(const playfield& field);
 
-        bool can_rotate(rotation r, const playfield& field) override;
+        bool can_rotate(rotation r) override;
         void rotate(rotation r) override;
     private:
         void set_blocks(rotation r);
@@ -69,9 +70,9 @@ class z_piece : public piece
 class t_piece : public piece
 {
     public:
-        t_piece();
+        t_piece(const playfield& field);
 
-        bool can_rotate(rotation r, const playfield& field) override;
+        bool can_rotate(rotation r) override;
         void rotate(rotation r) override;
     private:
         void set_blocks(rotation r);

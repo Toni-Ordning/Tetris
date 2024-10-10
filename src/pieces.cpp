@@ -31,7 +31,8 @@ const std::map<rotation_pair, offset> other_piece_offsets
     {{piece::rotation::left, piece::rotation::left}, {0, 1}},
 };
 
-i_piece::i_piece()
+i_piece::i_piece(const playfield& field)
+    : piece(field)
 {
     width = 4;
     height = 1;
@@ -61,14 +62,14 @@ void i_piece::set_blocks(rotation r)
     } 
 }
 
-bool i_piece::can_rotate(rotation r, const playfield& field)
+bool i_piece::can_rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
 
     i_piece copy = *this;
     copy.rotate(r);
 
-    return !copy.is_colliding(field);
+    return !copy.is_colliding();
 }
 
 void i_piece::rotate(rotation r)
@@ -116,7 +117,8 @@ static piece::rotation get_next_rotation(piece::rotation current_rotation, piece
     return rotations.at({current_rotation, twist});
 }
 
-j_piece::j_piece()
+j_piece::j_piece(const playfield& field)
+    : piece(field)
 {
     width = 3;
     height = 2;
@@ -160,14 +162,14 @@ void j_piece::set_blocks(rotation r)
     }
 }
 
-bool j_piece::can_rotate(rotation r, const playfield& field)
+bool j_piece::can_rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
 
     j_piece copy = *this;
     copy.rotate(r);
 
-    return !copy.is_colliding(field);
+    return !copy.is_colliding();
 }
 
 void j_piece::rotate(rotation r)
@@ -180,7 +182,8 @@ void j_piece::rotate(rotation r)
     set_blocks(current_rotation);
 }
 
-l_piece::l_piece()
+l_piece::l_piece(const playfield& field)
+    : piece(field)
 {
     width = 3;
     height = 2;
@@ -224,14 +227,14 @@ void l_piece::set_blocks(rotation r)
     }
 }
 
-bool l_piece::can_rotate(rotation r, const playfield& field)
+bool l_piece::can_rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
 
     l_piece copy = *this;
     copy.rotate(r);
 
-    return !copy.is_colliding(field);
+    return !copy.is_colliding();
 }
 
 void l_piece::rotate(rotation r)
@@ -244,7 +247,8 @@ void l_piece::rotate(rotation r)
     set_blocks(current_rotation);
 }
 
-o_piece::o_piece()
+o_piece::o_piece(const playfield& field)
+    : piece(field)
 {
     width = 2;
     height = 2;
@@ -259,7 +263,7 @@ o_piece::o_piece()
 }
 
 // No need to rotate o_piece
-bool o_piece::can_rotate(rotation r, const playfield& field)
+bool o_piece::can_rotate(rotation r)
 {
     return true;
 }
@@ -268,7 +272,8 @@ void o_piece::rotate(rotation r)
 {
 }
 
-s_piece::s_piece()
+s_piece::s_piece(const playfield& field)
+    : piece(field)
 {
     width = 3;
     height = 2;
@@ -298,14 +303,14 @@ void s_piece::set_blocks(rotation r)
     } 
 }
 
-bool s_piece::can_rotate(rotation r, const playfield& field)
+bool s_piece::can_rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
 
     s_piece copy = *this;
     copy.rotate(r);
 
-    return !copy.is_colliding(field);
+    return !copy.is_colliding();
 }
 
 void s_piece::rotate(rotation r)
@@ -318,7 +323,8 @@ void s_piece::rotate(rotation r)
     set_blocks(current_rotation);
 }
 
-z_piece::z_piece()
+z_piece::z_piece(const playfield& field)
+    : piece(field)
 {
     width = 3;
     height = 2;
@@ -352,14 +358,14 @@ void z_piece::set_blocks(rotation r)
     } 
 }
 
-bool z_piece::can_rotate(rotation r, const playfield& field)
+bool z_piece::can_rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
 
     z_piece copy = *this;
     copy.rotate(r);
 
-    return !copy.is_colliding(field);
+    return !copy.is_colliding();
 }
 
 void z_piece::rotate(rotation r)
@@ -372,7 +378,8 @@ void z_piece::rotate(rotation r)
     set_blocks(current_rotation);
 }
 
-t_piece::t_piece()
+t_piece::t_piece(const playfield& field)
+    : piece(field)
 {
     width = 3;
     height = 2;
@@ -416,14 +423,14 @@ void t_piece::set_blocks(rotation r)
     }
 }
 
-bool t_piece::can_rotate(rotation r, const playfield& field)
+bool t_piece::can_rotate(rotation r)
 {
     assert(r == rotation::right || r == rotation::left);
 
     t_piece copy = *this;
     copy.rotate(r);
 
-    return !copy.is_colliding(field);
+    return !copy.is_colliding();
 }
 
 void t_piece::rotate(rotation r)
