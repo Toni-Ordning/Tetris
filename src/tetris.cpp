@@ -28,6 +28,11 @@ void tetris::tick()
 
         active_piece = std::move(random_pieces.front());
         random_pieces.pop_front();
+
+        if (!active_piece->can_move_down(field))
+        {
+            state = game_state::over;
+        }
     }
 
     if (!active_piece->can_move_down(field))
@@ -85,7 +90,7 @@ bool tetris::should_move_piece_down()
         last_falldown_time = now;
         return true;
     }
-    
+
     return false;
 }
 

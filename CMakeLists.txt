@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CXX_FLAGS "${CXX_FLAGS} -Wall -Wextra -Wpedantic -Werror")
 
 add_subdirectory(raylib)
+add_compile_definitions(RAYGUI_IMPLEMENTATION)
+add_subdirectory(raygui/projects/CMake)
 
 add_executable(main
     src/autorepeat.cpp
@@ -22,10 +24,11 @@ add_executable(main
 
 target_include_directories(main
     PRIVATE include
-    PRIVATE raygui/src
     PRIVATE raylib/src
+    PRIVATE raygui/src
 )
 
 target_link_libraries(main
+    PRIVATE raygui
     PRIVATE raylib
 )

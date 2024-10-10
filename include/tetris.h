@@ -11,6 +11,12 @@
 #include <optional>
 #include <vector>
 
+enum class game_state
+{
+    over,
+    running,
+};
+
 class tetris
 {
     public:
@@ -21,9 +27,11 @@ class tetris
 
         int get_width() const noexcept;
         int get_height() const noexcept;
-        
+
         const tile& get_tile(int x, int y) const;
         piece* get_piece() const;
+
+        game_state state = game_state::running;
 
     private:
         playfield field;
