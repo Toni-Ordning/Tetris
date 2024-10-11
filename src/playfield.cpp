@@ -25,7 +25,7 @@ int playfield::get_height() const noexcept
 
 const tile& playfield::get_tile(int x, int y) const
 {
-    int index = y * width + x;
+    int index = get_index(x, y);
     assert(index < tiles.size());
     return tiles.at(index);
 }
@@ -64,7 +64,7 @@ void playfield::move_lines_down(int y)
     }
 }
 
-int playfield::get_index(int x, int y)
+int playfield::get_index(int x, int y) const
 {
     return y * width + x;
 }

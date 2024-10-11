@@ -25,5 +25,5 @@ class playfield
         int height = 0;
         std::vector<tile> tiles;
 
-        int get_index(int x, int y);
+        int get_index(int x, int y) const;
 };
