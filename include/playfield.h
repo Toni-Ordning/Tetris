@@ -16,8 +16,9 @@ class playfield
 
         const tile& get_tile(int x, int y) const;
         void set_tile(int x, int y, const Color& color);
-        void clear_tile(int x, int y);
-        void move_tile_down(int x, int y);
+
+        void clear_line(int y);
+        void move_lines_down(int y);
 
     private:
         int width = 0;

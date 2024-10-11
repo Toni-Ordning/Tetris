@@ -36,21 +36,30 @@ void playfield::set_tile(int x, int y, const Color& color)
     tiles.at(index) = tile{color, true};
 }
 
-void playfield::clear_tile(int x, int y)
+void playfield::clear_line(int y)
 {
-    int index = y * width + x;
-    tiles.at(index) = tile{light_white, false};
+    for (int x = 0; x < width; ++x)
+    {
+        int index = y * width + x;
+        tiles.at(index) = tile{light_white, false};
+    }
 }
 
-void playfield::move_tile_down(int x, int y)
+void playfield::move_lines_down(int y)
 {
-    if (y == 0 || y == height - 1)
+    for (int yy = y; yy > 0; --yy)
     {
-        return;
-    }
+        for (int x = 0; x < width; ++x)
+        {
+            if (yy == 0)
+            {
+                break;
+            }
 
-    int index = y * width + x;
-    int line_below_index = (y+1) * width + x;
-    tiles.at(line_below_index) = tiles.at(index);
-    clear_tile(x, y);
+            int old_index = (yy - 1) * width + x;
+            int new_index = yy * width + x;
+            tiles.at(new_index) = tiles.at(old_index);
+            tiles.at(old_index) = tile{light_white, false};
+        }
+    }
 }
