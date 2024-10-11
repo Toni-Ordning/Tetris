@@ -171,6 +171,11 @@ bool piece::is_colliding()
         return true;
     }
 
+    if (y < 0)
+    {
+        return true;
+    }
+
     for (int y = 0; y < height; ++y)
     {
         for (int x = 0; x < width; ++x)
