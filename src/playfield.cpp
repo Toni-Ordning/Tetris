@@ -32,7 +32,8 @@ const tile& playfield::get_tile(int x, int y) const
 
 void playfield::set_tile(int x, int y, const Color& color)
 {
-    int index = y * width + x;
+    int index = get_index(x, y);
+    assert(index < tiles.size());
     tiles.at(index) = tile{color, true};
 }
 
@@ -40,8 +41,7 @@ void playfield::clear_line(int y)
 {
     for (int x = 0; x < width; ++x)
     {
-        int index = y * width + x;
-        tiles.at(index) = tile{light_white, false};
+        tiles.at(get_index(x, y)) = tile{light_white, false};
     }
 }
 
@@ -56,10 +56,15 @@ void playfield::move_lines_down(int y)
                 break;
             }
 
-            int old_index = (yy - 1) * width + x;
-            int new_index = yy * width + x;
+            int old_index = get_index(yy - 1, x);
+            int new_index = get_index(yy, x);
             tiles.at(new_index) = tiles.at(old_index);
             tiles.at(old_index) = tile{light_white, false};
         }
     }
+}
+
+int playfield::get_index(int x, int y)
+{
+    return y * width + x;
 }

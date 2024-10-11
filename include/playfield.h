@@ -24,4 +24,6 @@ class playfield
         int width = 0;
         int height = 0;
         std::vector<tile> tiles;
+
+        int get_index(int x, int y);
 };
