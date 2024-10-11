@@ -80,11 +80,10 @@ piece* tetris::get_piece() const
 
 bool tetris::should_move_piece_down()
 {
-    using time_point = std::chrono::time_point<tetris_clock>;
     using seconds = std::chrono::seconds;
 
     const float interval = internal::get_interval(level);
-    const time_point now = tetris_clock::now();
+    const tetris_time_point now = tetris_clock::now();
     if (now - last_falldown_time > interval * seconds(1))
     {
         last_falldown_time = now;
