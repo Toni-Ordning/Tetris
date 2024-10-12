@@ -184,6 +184,5 @@ void tetris::clear_complete_lines()
         }
 
         field.clear_line(y);
-        field.move_lines_down(y);
     }
 }

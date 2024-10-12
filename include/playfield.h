@@ -18,7 +18,6 @@ class playfield
         void set_tile(int x, int y, const Color& color);
 
         void clear_line(int y);
-        void move_lines_down(int y);
 
     private:
         int width = 0;
@@ -26,4 +25,7 @@ class playfield
         std::vector<tile> tiles;
 
         int get_index(int x, int y) const;
+        void move_lines_down(int y);
+        void move_line_down(int y);
+        bool move_tile_down(int x, int y);
 };
