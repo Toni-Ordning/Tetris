@@ -32,12 +32,15 @@ class tetris
         const tile& get_tile(int x, int y) const;
         piece* get_piece() const;
 
+        piece* get_guide_piece() const;
+
         game_state state = game_state::running;
 
     private:
         autorepeat repeat;
         playfield field;
         std::unique_ptr<piece> active_piece = nullptr;
+        std::unique_ptr<piece> guide_piece = nullptr;
         piece_generator generator;
         std::deque<std::unique_ptr<piece>> random_pieces;
 

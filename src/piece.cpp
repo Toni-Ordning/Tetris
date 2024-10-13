@@ -31,6 +31,18 @@ std::unique_ptr<piece> build_piece(piece::piece_type type, const playfield& fiel
     }
 }
 
+std::unique_ptr<piece> piece::copy()
+{
+    std::unique_ptr<piece> copy = build_piece(type, field);
+    while (copy->current_rotation != current_rotation)
+    {
+        copy->rotate(rotation::right);
+    }
+    copy->x = x;
+
+    return std::move(copy);
+}
+
 int piece::get_x() const noexcept
 {
     return x;
@@ -49,6 +61,11 @@ int piece::get_width() const noexcept
 int piece::get_height() const noexcept
 {
     return height;
+}
+
+piece::piece_type piece::get_type() const noexcept
+{
+    return type;
 }
 
 void piece::set_block(int x, int y)

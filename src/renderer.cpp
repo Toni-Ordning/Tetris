@@ -35,4 +35,11 @@ void renderer::draw()
     {
         piece->draw(draw_position, tile_size, piece->get_color(), game_background);
     }
+
+    if (piece* guide_piece = game.get_guide_piece())
+    {
+        Color color = guide_piece->get_color();
+        color.a = 0x40;
+        guide_piece->draw(draw_position, tile_size, color, game_background);
+    }
 }

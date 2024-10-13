@@ -55,6 +55,16 @@ void tetris::tick()
     {
         active_piece->move_down();
     }
+
+    guide_piece = nullptr;
+    if (active_piece)
+    {
+        guide_piece = active_piece->copy();
+        while (guide_piece->can_move_down())
+        {
+            guide_piece->move_down();
+        }
+    }
 }
 
 int tetris::get_width() const noexcept
@@ -70,11 +80,6 @@ int tetris::get_height() const noexcept
 const tile& tetris::get_tile(int x, int y) const
 {
     return field.get_tile(x, y);
-}
-
-piece* tetris::get_piece() const
-{
-    return active_piece.get();
 }
 
 bool tetris::should_move_piece_down()
@@ -180,4 +185,14 @@ void tetris::clear_complete_lines()
 
         field.clear_line(y);
     }
+}
+
+piece* tetris::get_piece() const
+{
+    return active_piece.get();
+}
+
+piece* tetris::get_guide_piece() const
+{
+    return guide_piece.get();
 }

@@ -39,6 +39,7 @@ class piece
         int get_y() const noexcept;
         int get_width() const noexcept;
         int get_height() const noexcept;
+        piece_type get_type() const noexcept;
 
         bool can_move_down();
         void move_down();
@@ -49,6 +50,8 @@ class piece
         Color get_color() const;
 
         void draw(int field_position, int tile_size, const Color& tile_color, const Color& background) const;
+
+        std::unique_ptr<piece> copy();
         
     protected: 
         int width = 0;
@@ -58,6 +61,7 @@ class piece
         std::vector<bool> blocks;
         Color color = light_white;
         rotation current_rotation = rotation::original;
+        piece_type type;
 
         const playfield& field;
         

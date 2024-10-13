@@ -40,6 +40,7 @@ i_piece::i_piece(const playfield& field)
     y = 0;
     color = light_blue;
     set_blocks(rotation::original);
+    type = piece_type::i;
 }
 
 void i_piece::set_blocks(rotation r)
@@ -126,6 +127,7 @@ j_piece::j_piece(const playfield& field)
     y = 0;
     color = dark_blue;
     set_blocks(rotation::original);
+    type = piece_type::j;
 }
 
 void j_piece::set_blocks(rotation r)
@@ -191,6 +193,7 @@ l_piece::l_piece(const playfield& field)
     y = 0;
     color = orange;
     set_blocks(rotation::original);
+    type = piece_type::l;
 }
 
 void l_piece::set_blocks(rotation r)
@@ -260,6 +263,7 @@ o_piece::o_piece(const playfield& field)
     set_block(1, 0);
     set_block(1, 1);
     color = yellow;
+    type = piece_type::o;
 }
 
 // No need to rotate o_piece
@@ -281,6 +285,7 @@ s_piece::s_piece(const playfield& field)
     y = 0;
     color = green;
     set_blocks(rotation::original);
+    type = piece_type::s;
 }
 
 void s_piece::set_blocks(rotation r)
@@ -336,6 +341,7 @@ z_piece::z_piece(const playfield& field)
     set_block(1, 1);
     set_block(2, 1);
     color = red;
+    type = piece_type::z;
 }
 
 void z_piece::set_blocks(rotation r)
@@ -387,6 +393,7 @@ t_piece::t_piece(const playfield& field)
     y = 0;
     color = magenta;
     set_blocks(rotation::original);
+    type = piece_type::t;
 }
 
 void t_piece::set_blocks(rotation r)
