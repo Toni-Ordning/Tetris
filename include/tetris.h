@@ -1,5 +1,6 @@
 #pragma once
 
+#include "autorepeat.h"
 #include "input.h"
 #include "piece.h"
 #include "piece_generator.h"
@@ -34,6 +35,7 @@ class tetris
         game_state state = game_state::running;
 
     private:
+        autorepeat repeat;
         playfield field;
         std::unique_ptr<piece> active_piece = nullptr;
         piece_generator generator;

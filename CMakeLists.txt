@@ -44,6 +44,7 @@ target_link_libraries(main
 )
 
 add_executable(unittest
+    unittest/autorepeat_test.cpp
     unittest/main.cpp
     unittest/playfield_test.cpp
 )
@@ -60,10 +61,4 @@ target_link_libraries(unittest
     PRIVATE core
     PRIVATE gtest
     PRIVATE gmock
-)
-
-add_custom_command(
-    TARGET unittest
-    POST_BUILD
-    COMMAND ctest ARGS --verbose
 )

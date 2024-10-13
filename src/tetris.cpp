@@ -1,6 +1,5 @@
 #include "tetris.h"
 
-#include "autorepeat.h"
 #include "tetris_internal.h"
 
 #include <algorithm>
@@ -100,18 +99,14 @@ void tetris::process_events(std::deque<input_event>& events)
         return;
     }
 
-    // Reset autorepeat if no input event was generated
-    if (events.empty())
-    {
-        reset_autorepeat();
-    }
+    repeat.start_processing();
 
     for (input_event event : events)
     {
         switch (event)
         {
             case input_event::hard_drop:
-                if (!should_autorepeat(event))
+                if (!repeat.should_autorepeat(event))
                 {
                     continue;
                 }
@@ -122,25 +117,25 @@ void tetris::process_events(std::deque<input_event>& events)
                 }
                 break;
             case input_event::move_piece_left:
-                if (should_autorepeat(event))
+                if (repeat.should_autorepeat(event))
                 {
                     active_piece->move_left();
                 }
                 break;
             case input_event::move_piece_right:
-                if (should_autorepeat(event))
+                if (repeat.should_autorepeat(event))
                 {
                     active_piece->move_right();
                 }
                 break;
             case input_event::soft_drop:
-                if (should_autorepeat(event) && active_piece->can_move_down())
+                if (repeat.should_autorepeat(event) && active_piece->can_move_down())
                 {
                     active_piece->move_down();
                 }
                 break;
             case input_event::rotate_clockwise:
-                if (should_autorepeat(event))
+                if (repeat.should_autorepeat(event))
                 {
                     if (!active_piece->can_rotate(piece::rotation::right))
                     {
@@ -151,7 +146,7 @@ void tetris::process_events(std::deque<input_event>& events)
                 }
                 break;
             case input_event::rotate_counterclockwise:
-                if (should_autorepeat(event))
+                if (repeat.should_autorepeat(event))
                 {
                     if (!active_piece->can_rotate(piece::rotation::left))
                     {
