@@ -65,6 +65,8 @@ void tetris::tick()
             guide_piece->move_down();
         }
     }
+
+    update_level();
 }
 
 int tetris::get_width() const noexcept
@@ -80,6 +82,11 @@ int tetris::get_height() const noexcept
 int tetris::get_score() const noexcept
 {
     return score;
+}
+
+int tetris::get_level() const noexcept
+{
+    return level;
 }
 
 const tile& tetris::get_tile(int x, int y) const
@@ -201,4 +208,17 @@ piece* tetris::get_piece() const
 piece* tetris::get_guide_piece() const
 {
     return guide_piece.get();
+}
+
+void tetris::update_level()
+{
+    int new_level = 1;
+    int current_score = score;
+    while (current_score > 10)
+    {
+        ++new_level;
+        current_score -= 10;
+    }
+
+    level = new_level;
 }

@@ -29,6 +29,7 @@ class tetris
         int get_width() const noexcept;
         int get_height() const noexcept;
         int get_score() const noexcept;
+        int get_level() const noexcept;
 
         const tile& get_tile(int x, int y) const;
         piece* get_piece() const;
@@ -46,9 +47,11 @@ class tetris
         std::deque<std::unique_ptr<piece>> random_pieces;
 
         tetris_time_point last_falldown_time = tetris_clock::now();
+        int level_threshold = 10;
         int level = 1;
         int score = 0;
 
         bool should_move_piece_down();
         void clear_complete_lines();
+        void update_level();
 };

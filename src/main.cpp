@@ -53,8 +53,10 @@ static void game_over(const game_context& context)
 
     const float button_distance = 140;
     float y = 100;
+    std::string level_text = "Level: " + std::to_string(context.game.get_level());
     std::string score_text = "Score: " + std::to_string(context.game.get_score());
-    GuiLabel(Rectangle{window_width / 2 - 50, y, 100, 100}, score_text.c_str());
+    std::string label_text = level_text + "\n" + score_text;
+    GuiLabel(Rectangle{window_width / 2 - 50, y, 100, 100}, label_text.c_str());
 
     y += button_distance;
     if (GuiButton(Rectangle{window_width / 2 - 50, y, 100, 100}, "Restart"))
