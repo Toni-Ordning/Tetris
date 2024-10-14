@@ -77,6 +77,11 @@ int tetris::get_height() const noexcept
     return field.get_height();
 }
 
+int tetris::get_score() const noexcept
+{
+    return score;
+}
+
 const tile& tetris::get_tile(int x, int y) const
 {
     return field.get_tile(x, y);
@@ -184,6 +189,7 @@ void tetris::clear_complete_lines()
         }
 
         field.clear_line(y);
+        ++score;
     }
 }
 

@@ -51,13 +51,20 @@ static void game_over(const game_context& context)
 
     ClearBackground(game_background);
 
-    if (GuiButton(Rectangle{window_width / 2 - 50, 100, 100, 100}, "Restart"))
+    const float button_distance = 140;
+    float y = 100;
+    std::string score_text = "Score: " + std::to_string(context.game.get_score());
+    GuiLabel(Rectangle{window_width / 2 - 50, y, 100, 100}, score_text.c_str());
+
+    y += button_distance;
+    if (GuiButton(Rectangle{window_width / 2 - 50, y, 100, 100}, "Restart"))
     {
         context.game = tetris(10, 20);
         context.game.state = game_state::running;
     }
 
-    if (GuiButton(Rectangle{window_width / 2 - 50, 240, 100, 100}, "Quit"))
+    y += button_distance;
+    if (GuiButton(Rectangle{window_width / 2 - 50, y, 100, 100}, "Quit"))
     {
         CloseWindow();
         return;
