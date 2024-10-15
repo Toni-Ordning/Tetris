@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CXX_FLAGS "${CXX_FLAGS} -Wall -Wextra -Wpedantic -Werror")
 
 add_subdirectory(raylib)
-add_compile_definitions(RAYGUI_IMPLEMENTATION)
 add_subdirectory(raygui/projects/CMake)
 add_subdirectory(googletest)
 
@@ -28,6 +27,10 @@ target_include_directories(core
     PUBLIC include
     PUBLIC raylib/src
     PUBLIC raygui/src
+)
+
+target_compile_definitions(core
+    PRIVATE RAYGUI_IMPLEMENTATION
 )
 
 target_link_libraries(core

@@ -1,6 +1,7 @@
 #include "renderer.h"
 
 #include "raylib.h"
+#include "raygui.h"
 
 #include "constants.h"
 
@@ -44,6 +45,7 @@ void renderer::draw()
     }
 
     draw_bag();
+    draw_sidebar();
 }
 
 void renderer::draw_bag()
@@ -83,4 +85,19 @@ void renderer::draw_bag()
         
         ++piece_pos;
     }
+}
+
+void renderer::draw_sidebar()
+{
+    float rectangle_size = 100;
+    float x_position = std::lround(window_width * 1/6 - rectangle_size/2);
+    float y = window_height / 3 - rectangle_size / 2;
+    
+    std::string level_text = "Level: " + std::to_string(game.get_level());
+    GuiLabel(Rectangle{x_position, y, rectangle_size, rectangle_size}, level_text.c_str());
+
+    y = window_height * 2/3 - rectangle_size / 2;
+
+    std::string score_text = "Score: " + std::to_string(game.get_score());
+    GuiLabel(Rectangle{x_position, y, rectangle_size, rectangle_size}, score_text.c_str());
 }

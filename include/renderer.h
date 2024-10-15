@@ -13,4 +13,5 @@ class renderer
         const tetris& game;
 
         void draw_bag();
+        void draw_sidebar();
 };
