@@ -31,6 +31,8 @@ class tetris
         int get_score() const noexcept;
         int get_level() const noexcept;
 
+        const std::deque<std::unique_ptr<piece>>& get_pieces() const noexcept;
+
         const tile& get_tile(int x, int y) const;
         piece* get_piece() const;
 

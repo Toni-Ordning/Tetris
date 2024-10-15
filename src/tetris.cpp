@@ -94,6 +94,11 @@ const tile& tetris::get_tile(int x, int y) const
     return field.get_tile(x, y);
 }
 
+const std::deque<std::unique_ptr<piece>>& tetris::get_pieces() const noexcept
+{
+    return random_pieces;
+}
+
 bool tetris::should_move_piece_down()
 {
     using seconds = std::chrono::seconds;

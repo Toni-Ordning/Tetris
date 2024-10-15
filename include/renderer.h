@@ -11,4 +11,6 @@ class renderer
 
     private:
         const tetris& game;
+
+        void draw_bag();
 };
