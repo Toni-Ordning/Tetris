@@ -29,6 +29,10 @@ int main()
     InitWindow(window_width, window_height, "Tetris");
     SetTargetFPS(60);
 
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
+    GuiSetStyle(DEFAULT, TEXT_SPACING, 2);
+    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 30);
+
     tetris tetris(10, 20);
     renderer renderer(tetris);
     game_context context{tetris, renderer};
